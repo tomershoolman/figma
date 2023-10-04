@@ -1,0 +1,17 @@
+{
+  "name": "first-plugin-test",
+  "id": "1287371050388582177",
+  "api": "1.0.0",
+  "main": "test.js",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "editorType": [
+    "figma"
+  ],
+  "ui": "test.html",
+  "networkAccess": {
+    "allowedDomains": [
+      "none"
+    ]
+  }
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Plugin</title>
+    <style>
+        #designsContainer {
+            display: flex;
+            overflow-x: auto;  /* To allow horizontal scrolling if designs overflow the container */
+            white-space: nowrap; /* To ensure content doesn't wrap to next line */
+        }
+        .design-container {
+            margin-right: 20px;  /* Spacing between designs */
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="designsContainer"></div>
+
+<script>
+onmessage = (event) => {
+    let msgType = event.data.pluginMessage.type;
+    let msgData = event.data.pluginMessage.data;
+    
+    if (msgType === 'exportImages') {
+        const container = document.getElementById('designsContainer');
+
+        msgData.forEach(design => {
+            let base64img = `data:image/png;base64,` + btoa(String.fromCharCode.apply(null, design.data));
+
+            // Create an image for preview
+            let img = document.createElement('img');
+            img.src = base64img;
+            img.alt = design.name;
+
+            // Create a download link
+            let link = document.createElement('a');
+            link.href = base64img;
+            link.download = `${design.name}.png`;
+            link.textContent = `Download ${design.name}`;
+
+            // Create a container for the design and its link
+            let designContainer = document.createElement('div');
+            designContainer.className = 'design-container';
+            designContainer.appendChild(img);
+            designContainer.appendChild(link);
+
+            // Append to the main container
+            container.appendChild(designContainer);
+        });
+    }
+}
+</script>
+
+</body>
+</html>
